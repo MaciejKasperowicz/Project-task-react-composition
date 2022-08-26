@@ -2,6 +2,7 @@ import React from "react";
 
 export const CalendarList = (props) => {
     const { meetings } = props;
+    // console.log(meetings);
 
     const calendarList = meetings.map(meeting => (
         <ul key={meeting.id}>
