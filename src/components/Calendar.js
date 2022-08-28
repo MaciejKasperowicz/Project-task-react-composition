@@ -36,6 +36,11 @@ export class Calendar extends React.Component {
         timeErr: false
     }
 
+    validateEmail = (email) => {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email)
+    }
+
     validateInputs = (inputName, inputValue) => {
         switch (inputName) {
             case "firstName":
@@ -52,6 +57,15 @@ export class Calendar extends React.Component {
                     this.errors = { ...this.errors, ["lastNameErr"]: false };
                 }
                 break;
+            // case "email":
+            //     const isValidEmail = this.validateEmail(inputValue);
+            //     console.log({ isValidEmail });
+            //     if (!isValidEmail) {
+            //         this.errors = { ...this.errors, ["emailErr"]: true };
+            //     } else {
+            //         this.errors = { ...this.errors, ["emailErr"]: false };
+            //     }
+            //     break;
 
             default:
                 break;
@@ -68,14 +82,14 @@ export class Calendar extends React.Component {
         console.log({ name, value });
 
 
-        const isValidInputs = this.validateInputs(name, value);
-        console.log(isValidInputs);
+        // const isValidInputs = this.validateInputs(name, value);
+        // console.log({ isValidInputs });
 
-        if (isValidInputs) {
-            this.setState(prevState => (
-                { newMeeting: { ...prevState.newMeeting, [name]: value } }
-            ))
-        }
+        // if (isValidInputs) {
+        this.setState(prevState => (
+            { newMeeting: { ...prevState.newMeeting, [name]: value } }
+        ))
+        // }
     }
 
     validateNewMeeting = (newMeeting) => {
