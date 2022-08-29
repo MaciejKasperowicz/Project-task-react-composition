@@ -18,15 +18,7 @@ export class Calendar extends React.Component {
         meetings: null
     }
 
-    // onNewMeetingNameChange = (e) => {
-    //     console.log(e.target);
-    //     const firstName = e.target.value
-    //     this.setState((prevState) => {
-    //         return {
-    //             newMeeting: { ...prevState.newMeeting, firstName }
-    //         }
-    //     })
-    // }
+
 
     errors = {
         firstNameErr: false,
@@ -41,36 +33,65 @@ export class Calendar extends React.Component {
         return re.test(email)
     }
 
-    validateInputs = (inputName, inputValue) => {
-        switch (inputName) {
-            case "firstName":
-                if (inputValue.length < 2) {
-                    this.errors = { ...this.errors, ["firstNameErr"]: true };
-                } else {
-                    this.errors = { ...this.errors, ["firstNameErr"]: false };
-                }
-                break;
-            case "lastName":
-                if (inputValue.length < 2) {
-                    this.errors = { ...this.errors, ["lastNameErr"]: true };
-                } else {
-                    this.errors = { ...this.errors, ["lastNameErr"]: false };
-                }
-                break;
-            // case "email":
-            //     const isValidEmail = this.validateEmail(inputValue);
-            //     console.log({ isValidEmail });
-            //     if (!isValidEmail) {
-            //         this.errors = { ...this.errors, ["emailErr"]: true };
-            //     } else {
-            //         this.errors = { ...this.errors, ["emailErr"]: false };
-            //     }
-            //     break;
+    validateDate = (date) => {
+        const re = /^\d{4}-\d{2}-\d{2}$/;
+        return re.test(date);
+    }
 
-            default:
-                break;
-        }
-        // return this.errors
+    validateTime = (time) => {
+        const re = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/;
+        return re.test(time);
+    }
+
+    validateNewMeeting = (newMeeting) => {
+
+        Object.keys(newMeeting).forEach(field => {
+            switch (field) {
+                case "firstName":
+                    if (newMeeting[field].length < 2) {
+                        this.errors = { ...this.errors, ["firstNameErr"]: true };
+                    } else {
+                        this.errors = { ...this.errors, ["firstNameErr"]: false };
+                    }
+                    break;
+                case "lastName":
+                    if (newMeeting[field].length < 2) {
+                        this.errors = { ...this.errors, ["lastNameErr"]: true };
+                    } else {
+                        this.errors = { ...this.errors, ["lastNameErr"]: false };
+                    }
+                    break;
+                case "email":
+                    const isValidEmail = this.validateEmail(newMeeting[field]);
+                    console.log({ isValidEmail });
+                    if (!isValidEmail) {
+                        this.errors = { ...this.errors, ["emailErr"]: true };
+                    } else {
+                        this.errors = { ...this.errors, ["emailErr"]: false };
+                    }
+                    break;
+                case "date":
+                    const isValidDate = this.validateDate(newMeeting[field]);
+                    console.log({ isValidDate });
+                    if (!isValidDate) {
+                        this.errors = { ...this.errors, ["dateErr"]: true };
+                    } else {
+                        this.errors = { ...this.errors, ["dateErr"]: false };
+                    }
+                    break;
+                case "time":
+                    const isValidTime = this.validateTime(newMeeting[field]);
+                    console.log({ isValidTime });
+                    if (!isValidTime) {
+                        this.errors = { ...this.errors, ["timeErr"]: true };
+                    } else {
+                        this.errors = { ...this.errors, ["timeErr"]: false };
+                    }
+                    break;
+                default:
+                    break;
+            }
+        })
         const isValidInputs = !Object.values(this.errors).some(err => err === true);
         return isValidInputs;
     }
@@ -81,20 +102,9 @@ export class Calendar extends React.Component {
 
         console.log({ name, value });
 
-
-        // const isValidInputs = this.validateInputs(name, value);
-        // console.log({ isValidInputs });
-
-        // if (isValidInputs) {
         this.setState(prevState => (
             { newMeeting: { ...prevState.newMeeting, [name]: value } }
         ))
-        // }
-    }
-
-    validateNewMeeting = (newMeeting) => {
-        const isValidNewMeeting = !Object.values(newMeeting).some(value => value === "");
-        return isValidNewMeeting;
     }
 
 
@@ -133,9 +143,19 @@ export class Calendar extends React.Component {
         const url = `${urlAPI}${additionalPath}`
         const response = await fetch(url, options);
         const data = await response.json();
-        console.log(data);
         return data
     }
+
+    // _fetch(options = {}, additionalPath = "") {
+    //     const { urlAPI } = this.state;
+    //     const url = `${urlAPI}${additionalPath}`;
+    //     return fetch(url, options)
+    //         .then(resp => {
+    //             if (resp.ok) { return resp.json() }
+    //             return Promise.reject(resp);
+    //         })
+    //         .catch(err => console.log("Error:", err))
+    // }
 
 
     insertMeetings(data) {
@@ -150,6 +170,11 @@ export class Calendar extends React.Component {
         const data = await this._fetch();
         this.insertMeetings(data);
     }
+    // loadData() {
+    //     this._fetch()
+    //         .then(data => this.insertMeetings(data))
+    //         .catch(err => console.error(err))
+    // }
 
     async addData(newData) {
         const options = {

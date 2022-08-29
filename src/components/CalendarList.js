@@ -1,24 +1,20 @@
 import React from "react";
 
+import CalendarItem from "./CalendarItem";
+
 export const CalendarList = (props) => {
     const { meetings } = props;
-    // console.log(meetings);
 
-    const calendarList = meetings.map(meeting => (
-        <ul key={meeting.id}>
-            <li>
-                <h3>Imię: {meeting.firstName}</h3>
-                <h3>Nazwisko: {meeting.lastName}</h3>
-                <h4>Email: {meeting.email}</h4>
-                <h4>Date: {meeting.date}</h4>
-                <h4>Time: {meeting.time}</h4>
-            </li>
-        </ul>
-
-    ))
+    const calendarList = meetings.map(item =>
+        <CalendarItem key={item.id} {...item} />
+    )
 
     return (
-        calendarList
+        <ul>
+            {calendarList}
+
+
+        </ul>
     )
 }
 
