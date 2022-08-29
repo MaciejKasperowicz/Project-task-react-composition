@@ -2,25 +2,14 @@ import React from "react";
 
 export class CalendarForm extends React.Component {
 
-    // state = {
-    //     newMeetingName: null
-    // }
-
-
-
-
-
-
     render() {
         const { firstNameValue, lastNameValue, emailValue, dateValue, timeValue, handleInputChange, onSubmit } = this.props;
-        // console.log(this.props);
         return (
             <form onSubmit={onSubmit}>
                 <label>
                     Imię:
                     <input name="firstName" type="text"
                         value={firstNameValue}
-                        // onChange={onNewMeetingNameChange}
                         onChange={handleInputChange}
                     />
                 </label>
