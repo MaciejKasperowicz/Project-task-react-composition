@@ -11,15 +11,16 @@ export const ErrorAnnouncement = (props) => {
     } = props
 
     return (
-        <ul>
-            <h5>{firstNameErrAnnouncement}</h5>
-            <h5>{lastNameErrAnnouncement}</h5>
-            <h5>{emailErrAnnouncement}</h5>
-            <h5>{dateErrAnnouncement}</h5>
-            <h5>{timeErrAnnouncement}</h5>
 
-
+        <ul style={{ listStyle: "none" }}>
+            <li>{firstNameErrAnnouncement}</li>
+            <li>{lastNameErrAnnouncement}</li>
+            <li>{emailErrAnnouncement}</li>
+            <li>{dateErrAnnouncement}</li>
+            <li >{timeErrAnnouncement}</li>
         </ul>
+
+
     )
 }
 

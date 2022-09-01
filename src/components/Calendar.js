@@ -23,18 +23,15 @@ export class Calendar extends React.Component {
             dateErrAnnouncement: null,
             timeErrAnnouncement: null
         },
-        meetings: null
+        meetings: null,
+        errors: {
+            firstNameErr: false,
+            lastNameErr: false,
+            emailErr: false,
+            dateErr: false,
+            timeErr: false
+        }
     }
-
-    errors = {
-        firstNameErr: false,
-        lastNameErr: false,
-        emailErr: false,
-        dateErr: false,
-        timeErr: false
-    }
-
-
 
     validateEmail = (email) => {
         const re = /\S+@\S+\.\S+/;
@@ -51,97 +48,68 @@ export class Calendar extends React.Component {
         return re.test(time);
     }
 
-    validateNewMeeting = (newMeeting) => {
+    setError = (field, message) => {
+        this.setState(prevState => (
+            {
+                errors: { ...prevState.errors, [`${field}Err`]: true },
+                errorsAnnouncement: { ...prevState.errorsAnnouncement, [`${field}ErrAnnouncement`]: message }
+            }
+        ))
+    }
 
+    unsetError = (field) => {
+        this.setState(prevState => (
+            {
+                errors: { ...prevState.errors, [`${field}Err`]: false },
+                errorsAnnouncement: { ...prevState.errorsAnnouncement, [`${field}ErrAnnouncement`]: null }
+            }
+        ))
+    }
+    validateNewMeeting = async (newMeeting) => {
         Object.keys(newMeeting).forEach(field => {
             switch (field) {
                 case "firstName":
                     if (newMeeting[field].length < 2) {
-                        this.errors = { ...this.errors, firstNameErr: true };
-
-                        this.setState(prevState => (
-                            { errorsAnnouncement: { ...prevState.errorsAnnouncement, firstNameErrAnnouncement: "Imię musi zawierać minimum dwa znaki" } }
-                        ))
+                        this.setError(field, "Imię musi zawierać minimum dwa znaki.")
                     } else {
-                        this.errors = { ...this.errors, firstNameErr: false };
-
-                        this.setState(prevState => (
-                            { errorsAnnouncement: { ...prevState.errorsAnnouncement, firstNameErrAnnouncement: null } }
-                        ))
+                        this.unsetError(field)
                     }
                     break;
                 case "lastName":
                     if (newMeeting[field].length < 2) {
-                        this.errors = { ...this.errors, lastNameErr: true };
-
-                        this.setState(prevState => (
-                            { errorsAnnouncement: { ...prevState.errorsAnnouncement, lastNameErrAnnouncement: "Nazwisko musi zawierać minimum dwa znaki" } }
-                        ))
+                        this.setError(field, "Nazwisko musi zawierać minimum dwa znaki.")
                     } else {
-                        this.errors = { ...this.errors, lastNameErr: false };
-
-                        this.setState(prevState => (
-                            { errorsAnnouncement: { ...prevState.errorsAnnouncement, lastNameErrAnnouncement: null } }
-                        ))
+                        this.unsetError(field)
                     }
                     break;
                 case "email":
                     const isValidEmail = this.validateEmail(newMeeting[field]);
-                    console.log({ isValidEmail });
                     if (!isValidEmail) {
-                        this.errors = { ...this.errors, emailErr: true };
-
-                        this.setState(prevState => (
-                            { errorsAnnouncement: { ...prevState.errorsAnnouncement, emailErrAnnouncement: "Wpisz poprawny adres email, zawierający @" } }
-                        ))
+                        this.setError(field, "Wpisz poprawny adres email, zawierający @.")
                     } else {
-                        this.errors = { ...this.errors, emailErr: false };
-
-                        this.setState(prevState => (
-                            { errorsAnnouncement: { ...prevState.errorsAnnouncement, emailErrAnnouncement: null } }
-                        ))
+                        this.unsetError(field)
                     }
                     break;
                 case "date":
                     const isValidDate = this.validateDate(newMeeting[field]);
-                    console.log({ isValidDate });
                     if (!isValidDate) {
-                        this.errors = { ...this.errors, dateErr: true };
-
-                        this.setState(prevState => (
-                            { errorsAnnouncement: { ...prevState.errorsAnnouncement, dateErrAnnouncement: "Wprowadź datę w formacie: YYY-mm-dd" } }
-                        ))
+                        this.setError(field, "Wprowadź datę w formacie: YYY-mm-dd.")
                     } else {
-                        this.errors = { ...this.errors, dateErr: false };
-
-                        this.setState(prevState => (
-                            { errorsAnnouncement: { ...prevState.errorsAnnouncement, dateErrAnnouncement: null } }
-                        ))
+                        this.unsetError(field)
                     }
                     break;
                 case "time":
                     const isValidTime = this.validateTime(newMeeting[field]);
-                    console.log({ isValidTime });
                     if (!isValidTime) {
-                        this.errors = { ...this.errors, timeErr: true };
-                        // this.errorsAnnouncement = { ...this.errorsAnnouncement, timeErrAnnouncement: "Wprowadź czas w formacie: HH:mm" }
-                        this.setState(prevState => (
-                            { errorsAnnouncement: { ...prevState.errorsAnnouncement, timeErrAnnouncement: "Wprowadź czas w formacie: HH:mm" } }
-                        ))
+                        this.setError(field, "Wprowadź czas w formacie: HH:mm.")
                     } else {
-                        this.errors = { ...this.errors, timeErr: false };
-                        // this.errorsAnnouncement = { ...this.errorsAnnouncement, ["timeErrAnnouncement"]: null }
-                        this.setState(prevState => (
-                            { errorsAnnouncement: { ...prevState.errorsAnnouncement, timeErrAnnouncement: null } }
-                        ))
+                        this.unsetError(field)
                     }
                     break;
                 default:
                     break;
             }
         })
-        const isValidInputs = !Object.values(this.errors).some(err => err === true);
-        return isValidInputs;
     }
 
     handleInputChange = (e) => {
@@ -159,10 +127,13 @@ export class Calendar extends React.Component {
     addNewMeeting = async (e) => {
         e.preventDefault();
         const { newMeeting } = this.state;
-        console.log(newMeeting);
+        // console.log(newMeeting);
 
-        const isValidNewMeeting = this.validateNewMeeting(newMeeting)
+
+        await this.validateNewMeeting(newMeeting);
+        const isValidNewMeeting = !Object.values(this.state.errors).some(err => err === true);
         console.log(isValidNewMeeting);
+
 
 
         if (isValidNewMeeting) {
