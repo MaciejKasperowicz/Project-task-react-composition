@@ -3,39 +3,44 @@ import React from "react";
 export class CalendarForm extends React.Component {
 
     render() {
-        const { firstNameValue, lastNameValue, emailValue, dateValue, timeValue, handleInputChange, onSubmit } = this.props;
+        const { firstName, firstNameStyle, lastName, lastNameStyle, email, emailStyle, date, dateStyle, time, timeStyle, handleInputChange, onSubmit } = this.props;
         return (
             <form onSubmit={onSubmit}>
                 <label>
                     Imię:
                     <input name="firstName" type="text"
-                        value={firstNameValue}
+                        value={firstName}
                         onChange={handleInputChange}
+                        style={firstNameStyle}
                     />
                 </label>
                 <label htmlFor="lastName">
                     Nazwisko:
                     <input name="lastName" type="text"
-                        value={lastNameValue}
+                        value={lastName}
                         onChange={handleInputChange}
+                        style={lastNameStyle}
                     />
                 </label>
                 <label htmlFor="email">Email:
                     <input name="email" type="email"
-                        value={emailValue}
+                        value={email}
                         onChange={handleInputChange}
+                        style={emailStyle}
                     />
                 </label>
                 <label htmlFor="date">Data:
                     <input name="date" type="date"
-                        value={dateValue}
+                        value={date}
                         onChange={handleInputChange}
+                        style={dateStyle}
                     />
                 </label>
                 <label htmlFor="time">Czas:
                     <input name="time" type="time"
-                        value={timeValue}
+                        value={time}
                         onChange={handleInputChange}
+                        style={timeStyle}
                     />
                 </label>
                 <input type="submit" />

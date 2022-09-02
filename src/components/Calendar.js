@@ -23,14 +23,21 @@ export class Calendar extends React.Component {
             dateErrAnnouncement: null,
             timeErrAnnouncement: null
         },
-        meetings: null,
         errors: {
             firstNameErr: false,
             lastNameErr: false,
             emailErr: false,
             dateErr: false,
             timeErr: false
-        }
+        },
+        inputsStyles: {
+            firstNameStyle: null,
+            lastNameStyle: null,
+            emailStyle: null,
+            dateStyle: null,
+            timeStyle: null,
+        },
+        meetings: null,
     }
 
     validateEmail = (email) => {
@@ -52,7 +59,8 @@ export class Calendar extends React.Component {
         this.setState(prevState => (
             {
                 errors: { ...prevState.errors, [`${field}Err`]: true },
-                errorsAnnouncement: { ...prevState.errorsAnnouncement, [`${field}ErrAnnouncement`]: message }
+                errorsAnnouncement: { ...prevState.errorsAnnouncement, [`${field}ErrAnnouncement`]: message },
+                inputsStyles: { ...prevState.inputsStyles, [`${field}Style`]: { border: "3px solid red" } }
             }
         ))
     }
@@ -61,7 +69,8 @@ export class Calendar extends React.Component {
         this.setState(prevState => (
             {
                 errors: { ...prevState.errors, [`${field}Err`]: false },
-                errorsAnnouncement: { ...prevState.errorsAnnouncement, [`${field}ErrAnnouncement`]: null }
+                errorsAnnouncement: { ...prevState.errorsAnnouncement, [`${field}ErrAnnouncement`]: null },
+                inputsStyles: { ...prevState.inputsStyles, [`${field}Style`]: { border: "3px solid green" } }
             }
         ))
     }
@@ -148,6 +157,13 @@ export class Calendar extends React.Component {
                         date: "",
                         time: "",
                     },
+                    inputsStyles: {
+                        firstNameStyle: null,
+                        lastNameStyle: null,
+                        emailStyle: null,
+                        dateStyle: null,
+                        timeStyle: null,
+                    },
                     meetings: [...prevState.meetings, newMeeting]
                 }
             })
@@ -192,18 +208,14 @@ export class Calendar extends React.Component {
     }
 
     render() {
-        const { meetings, newMeeting } = this.state;
-        const { firstName, lastName, email, date, time } = newMeeting;
+        const { meetings, newMeeting, inputsStyles } = this.state;
 
         return (
             <div>
                 <h1>Calendar</h1>
                 {<CalendarForm
-                    firstNameValue={firstName}
-                    lastNameValue={lastName}
-                    emailValue={email}
-                    dateValue={date}
-                    timeValue={time}
+                    {...newMeeting}
+                    {...inputsStyles}
                     handleInputChange={this.handleInputChange}
                     onSubmit={this.addNewMeeting}
                 />}
