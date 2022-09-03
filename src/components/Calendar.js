@@ -3,6 +3,7 @@ import React from "react";
 import CalendarList from "./CalendarList";
 import CalendarForm from "./CalendarForm";
 import ErrorAnnouncement from "./ErrorAnnouncement";
+import Autocomplete from "./Autocomplete";
 
 
 export class Calendar extends React.Component {
@@ -16,6 +17,8 @@ export class Calendar extends React.Component {
             date: "",
             time: "",
         },
+        meetings: null,
+        searchedMeetings: null,
         errorsAnnouncement: {
             firstNameErrAnnouncement: null,
             lastNameErrAnnouncement: null,
@@ -37,7 +40,8 @@ export class Calendar extends React.Component {
             dateStyle: null,
             timeStyle: null,
         },
-        meetings: null,
+        searchInput: "",
+        meetingsToShow: null,
     }
 
     validateEmail = (email) => {
@@ -132,6 +136,48 @@ export class Calendar extends React.Component {
         ))
     }
 
+    handleSearchInputChange = async (e) => {
+        // console.log(e.target.value);
+        const searchInputValue = e.target.value;
+
+        this.setState(prevState => (
+            { searchInput: searchInputValue }
+        ))
+
+        this.getSearchData(searchInputValue)
+    }
+
+    getSearchData = async (searchValue) => {
+        const data = await this._fetch({}, `?firstName_like=${searchValue}`);
+        // console.log(data);
+        this.insertSearchedMeetings(data)
+    }
+
+    insertSearchedMeetings = (data) => {
+        this.setState(() => (
+            {
+                searchedMeetings: data,
+                meetings: data
+            }
+        ))
+    }
+
+    setSearchInput = (e) => {
+        const searchedValue = e.target.textContent
+        const allMeetings = this.state.meetings;
+        const meetingsToShow = allMeetings.filter(meeting => {
+            return meeting.firstName === searchedValue
+        })
+        console.log(meetingsToShow);
+        this.setState(() => (
+            {
+                searchInput: searchedValue,
+                searchedMeetings: null,
+                meetings: meetingsToShow
+            }
+        ))
+    }
+
 
     addNewMeeting = async (e) => {
         e.preventDefault();
@@ -173,6 +219,7 @@ export class Calendar extends React.Component {
     async _fetch(options = {}, additionalPath = "") {
         const { urlAPI } = this.state;
         const url = `${urlAPI}${additionalPath}`
+        // console.log(url);
         const response = await fetch(url, options);
         const data = await response.json();
         return data
@@ -208,7 +255,7 @@ export class Calendar extends React.Component {
     }
 
     render() {
-        const { meetings, newMeeting, inputsStyles } = this.state;
+        const { meetings, newMeeting, inputsStyles, searchInput, searchedMeetings } = this.state;
 
         return (
             <div>
@@ -220,6 +267,12 @@ export class Calendar extends React.Component {
                     onSubmit={this.addNewMeeting}
                 />}
                 {<ErrorAnnouncement {...this.state.errorsAnnouncement} />}
+                {<Autocomplete
+                    searchValue={searchInput}
+                    handleSearchInputChange={this.handleSearchInputChange}
+                    searchedMeetings={searchedMeetings}
+                    setSearchInput={this.setSearchInput}
+                />}
                 {meetings && <CalendarList meetings={meetings} />}
             </div>
         )
