@@ -1,15 +1,19 @@
 import React from "react";
 
+import './SearchedMeetings.css'
+
 export const SearchedMeetings = (props) => {
     const { searchedMeetings, setSearchInput } = props;
     const searchedMeetingsList = searchedMeetings.map(meeting => {
-        return (<li
-            key={meeting.id}
-            onClick={setSearchInput}
-        >{meeting.firstName}</li>)
+        return (
+            <li
+                className="searchedMeetings__item"
+                key={meeting.id}
+                onClick={setSearchInput}
+            >{meeting.firstName}</li>)
     })
     return (
-        <ul style={{ listStyle: "none" }}>
+        <ul className="searchedMeetings__list">
             {searchedMeetingsList}
         </ul>
     )

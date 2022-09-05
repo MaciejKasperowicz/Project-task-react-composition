@@ -5,6 +5,8 @@ import CalendarForm from "./CalendarForm";
 import ErrorAnnouncement from "./ErrorAnnouncement";
 import Autocomplete from "./Autocomplete";
 
+import './Calendar.css';
+
 
 export class Calendar extends React.Component {
 
@@ -258,23 +260,31 @@ export class Calendar extends React.Component {
         const { meetings, newMeeting, inputsStyles, searchInput, searchedMeetings } = this.state;
 
         return (
-            <div>
-                <h1>Calendar</h1>
-                {<CalendarForm
-                    {...newMeeting}
-                    {...inputsStyles}
-                    handleInputChange={this.handleInputChange}
-                    onSubmit={this.addNewMeeting}
-                />}
-                {<ErrorAnnouncement {...this.state.errorsAnnouncement} />}
-                {<Autocomplete
-                    searchValue={searchInput}
-                    handleSearchInputChange={this.handleSearchInputChange}
-                    searchedMeetings={searchedMeetings}
-                    setSearchInput={this.setSearchInput}
-                />}
-                {meetings && <CalendarList meetings={meetings} />}
-            </div>
+            <main className="calendar__main">
+                <h1 className="calendar__title">Calendar</h1>
+                <section className="calendar__section">
+                    <section className="calendar__left">
+                        {<CalendarForm
+                            {...newMeeting}
+                            {...inputsStyles}
+                            handleInputChange={this.handleInputChange}
+                            onSubmit={this.addNewMeeting}
+                        />}
+                        {<ErrorAnnouncement {...this.state.errorsAnnouncement} />}
+                        {<Autocomplete
+                            searchValue={searchInput}
+                            handleSearchInputChange={this.handleSearchInputChange}
+                            searchedMeetings={searchedMeetings}
+                            setSearchInput={this.setSearchInput}
+                        />}
+                    </section>
+                    <section className="calendar__right">
+                        {meetings && <CalendarList meetings={meetings} />}
+                    </section>
+                </section>
+
+
+            </main>
         )
     }
 }

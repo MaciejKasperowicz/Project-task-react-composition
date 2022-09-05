@@ -1,0 +1,23 @@
+.calendarItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    background-color: #97D2EC;
+    /* border: 3px solid black; */
+    border: none;
+    border-radius: 10px;
+    flex-basis: 45%;
+    padding: 10px;
+    margin: 1%;
+}
+
+.calendarItem__text{
+    display: inline-block;
+    color: #5F6F94;
+}
+
+.calendarItem__title{
+    display: inline-block;
+    width: 100px;
+}

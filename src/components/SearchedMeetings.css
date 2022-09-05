@@ -1,0 +1,20 @@
+.searchedMeetings__list{
+    list-style: none;
+    background-color: #97D2EC;
+    color: #25316D;
+    font-weight: bold;
+    /* border: 2px solid black;
+    border-top: none; */
+}
+
+.searchedMeetings__item{
+    padding: 3px;
+    font-size: 16px;
+    border-bottom: 1px solid #25316D;
+    margin: 1px;
+}
+
+.searchedMeetings__item:hover{
+    cursor: pointer;
+    background-color: #fff;
+}

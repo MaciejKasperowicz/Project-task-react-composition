@@ -1,0 +1,40 @@
+.calendar{
+    background-color: #5F6F94;
+    padding: 10px 3px;
+}
+
+.calendar__title{
+    text-align: center;
+}
+
+.form__field{
+    margin-bottom: 2%;
+}
+
+.field__label{
+    display: inline-block;
+    width: 100px;
+    padding: 2%;
+}
+
+.field__input{
+    background-color: #97D2EC;
+    border: none;
+    color: #25316D;
+    padding: 1%;
+}
+
+.field__input:focus{
+    outline: none;
+}
+
+.form__submit{
+    display: block;
+    margin: 5% auto;
+    width: 80%;
+    padding: 5px 10px;
+    background-color: #FEF5AC;
+    color: #25316D;
+    font-weight: bold;
+    border: none;
+}

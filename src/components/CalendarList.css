@@ -1,0 +1,15 @@
+.calendarList{
+    padding: 2% 0;
+    background-color: #25316D;
+}
+
+.calendarList__title{
+    text-align: center;
+}
+.calendarList__list{
+    display: flex;
+    justify-content: space-around;
+    /* align-items: space-around; */
+    flex-wrap: wrap;
+    list-style: none;
+}

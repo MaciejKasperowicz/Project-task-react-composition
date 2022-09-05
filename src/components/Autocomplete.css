@@ -1,0 +1,25 @@
+.autocomplete{
+    margin-top: 5%;
+    margin-bottom: 0;
+}
+
+.autocomplete__label{
+    display: block;
+    text-align: center;
+    margin: 2% 0;
+}
+
+.autocomplete__input{
+    width: 100%;
+    /* border: 2px solid black; */
+    border: none;
+    background-color: #97D2EC;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 3px;
+    color: #25316D;
+}
+
+.autocomplete__input:focus{
+    outline: none;
+}

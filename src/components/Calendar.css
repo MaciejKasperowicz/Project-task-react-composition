@@ -1,0 +1,12 @@
+.calendar__section{
+    display: flex;
+    justify-content: space-between;
+}
+
+.calendar__left{
+    flex-basis: 23%;
+}
+
+.calendar__right{
+    flex-basis: 75%;
+}

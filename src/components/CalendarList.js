@@ -2,6 +2,8 @@ import React from "react";
 
 import CalendarItem from "./CalendarItem";
 
+import './CalendarList.css';
+
 export const CalendarList = (props) => {
     const { meetings } = props;
 
@@ -10,11 +12,13 @@ export const CalendarList = (props) => {
     )
 
     return (
-        <ul>
-            {calendarList}
+        <section className="calendarList">
+            <h3 className="calendarList__title">Lista wszystkich spotkań:</h3>
+            <ul className="calendarList__list">
+                {calendarList}
+            </ul>
+        </section>
 
-
-        </ul>
     )
 }
 
