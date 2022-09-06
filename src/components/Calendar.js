@@ -7,6 +7,7 @@ import Autocomplete from "./Autocomplete";
 
 import './Calendar.css';
 
+import { loadData, addData, getSearchData } from '../api'
 
 export class Calendar extends React.Component {
 
@@ -19,6 +20,8 @@ export class Calendar extends React.Component {
             date: "",
             time: "",
         },
+        isLoading: true,
+        hasAPIError: false,
         meetings: null,
         searchedMeetings: null,
         errorsAnnouncement: {
@@ -131,7 +134,7 @@ export class Calendar extends React.Component {
         const { target } = e;
         const { name, value } = target;
 
-        console.log({ name, value });
+        // console.log({ name, value });
 
         this.setState(prevState => (
             { newMeeting: { ...prevState.newMeeting, [name]: value } }
@@ -146,23 +149,27 @@ export class Calendar extends React.Component {
             { searchInput: searchInputValue }
         ))
 
-        this.getSearchData(searchInputValue)
+        // this.getSearchData(searchInputValue)
+        try {
+            const searchedData = await getSearchData(searchInputValue);
+            this.setState(() => (
+                {
+                    searchedMeetings: searchedData,
+                    meetings: searchedData,
+                    hasAPIError: false
+                }
+            ))
+        } catch (error) {
+            this.setState(() => ({
+                hasAPIError: true
+            }))
+        } finally {
+            this.setState(() => ({
+                isLoading: false
+            }))
+        }
     }
 
-    getSearchData = async (searchValue) => {
-        const data = await this._fetch({}, `?firstName_like=${searchValue}`);
-        // console.log(data);
-        this.insertSearchedMeetings(data)
-    }
-
-    insertSearchedMeetings = (data) => {
-        this.setState(() => (
-            {
-                searchedMeetings: data,
-                meetings: data
-            }
-        ))
-    }
 
     setSearchInput = (e) => {
         const searchedValue = e.target.textContent
@@ -194,66 +201,62 @@ export class Calendar extends React.Component {
 
 
         if (isValidNewMeeting) {
-            const response = await this.addData(newMeeting);
-            newMeeting.id = response.id
-            this.setState(prevState => {
+            // const response = await this.addData(newMeeting);
+            try {
+                const response = await addData(newMeeting)
+                newMeeting.id = response.id
+                this.setState(prevState => {
+                    return {
+                        newMeeting: {
+                            firstName: "",
+                            lastName: "",
+                            email: "",
+                            date: "",
+                            time: "",
+                        },
+                        inputsStyles: {
+                            firstNameStyle: null,
+                            lastNameStyle: null,
+                            emailStyle: null,
+                            dateStyle: null,
+                            timeStyle: null,
+                        },
+                        meetings: [...prevState.meetings, newMeeting],
+                        hasAPIError: false
+                    }
+                })
+            } catch (error) {
+                this.setState(() => ({
+                    hasAPIError: true
+                }))
+            } finally {
+                this.setState(() => ({
+                    isLoading: false
+                }))
+            }
+
+        }
+    }
+
+    async componentDidMount() {
+        // this.loadData()
+        try {
+            const meetings = await loadData();
+            this.setState(() => {
                 return {
-                    newMeeting: {
-                        firstName: "",
-                        lastName: "",
-                        email: "",
-                        date: "",
-                        time: "",
-                    },
-                    inputsStyles: {
-                        firstNameStyle: null,
-                        lastNameStyle: null,
-                        emailStyle: null,
-                        dateStyle: null,
-                        timeStyle: null,
-                    },
-                    meetings: [...prevState.meetings, newMeeting]
+                    meetings: meetings,
+                    hasAPIError: false
                 }
             })
+        } catch (error) {
+            this.setState(() => ({
+                hasAPIError: true
+            }))
+        } finally {
+            this.setState(() => ({
+                isLoading: false
+            }))
         }
-    }
-
-    async _fetch(options = {}, additionalPath = "") {
-        const { urlAPI } = this.state;
-        const url = `${urlAPI}${additionalPath}`
-        // console.log(url);
-        const response = await fetch(url, options);
-        const data = await response.json();
-        return data
-    }
-
-    insertMeetings(data) {
-        this.setState(() => {
-            return {
-                meetings: data
-            }
-        })
-    }
-
-    async loadData() {
-        const data = await this._fetch();
-        this.insertMeetings(data);
-    }
-
-
-    async addData(newData) {
-        const options = {
-            method: "POST",
-            body: JSON.stringify(newData),
-            headers: { "Content-Type": "application/json" }
-        }
-
-        const data = await this._fetch(options)
-        return data
-    }
-
-    componentDidMount() {
-        this.loadData()
     }
 
     render() {
