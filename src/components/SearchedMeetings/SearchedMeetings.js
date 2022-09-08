@@ -1,19 +1,19 @@
 import React from "react";
 
-import './SearchedMeetings.css'
+import classes from './styles.module.css'
 
 export const SearchedMeetings = (props) => {
     const { searchedMeetings, setSearchInput } = props;
     const searchedMeetingsList = searchedMeetings.map(meeting => {
         return (
             <li
-                className="searchedMeetings__item"
+                className={classes.searchedMeetings__item}
                 key={meeting.id}
                 onClick={setSearchInput}
             >{meeting.firstName}</li>)
     })
     return (
-        <ul className="searchedMeetings__list">
+        <ul className={classes.searchedMeetings__list}>
             {searchedMeetingsList}
         </ul>
     )

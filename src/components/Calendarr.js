@@ -1,9 +1,10 @@
 import React from "react";
 
-import CalendarList from "./CalendarList";
-import CalendarForm from "./CalendarForm";
+import Message from './Message'
 import ErrorAnnouncement from "./ErrorAnnouncement";
 import Autocomplete from "./Autocomplete";
+import CalendarList from "./CalendarList";
+import CalendarForm from "./CalendarForm";
 
 import './Calendar.css';
 
@@ -260,7 +261,7 @@ export class Calendar extends React.Component {
     }
 
     render() {
-        const { meetings, newMeeting, inputsStyles, searchInput, searchedMeetings } = this.state;
+        const { meetings, newMeeting, inputsStyles, searchInput, searchedMeetings, hasAPIError, isLoading } = this.state;
 
         return (
             <main className="calendar__main">
@@ -282,7 +283,28 @@ export class Calendar extends React.Component {
                         />}
                     </section>
                     <section className="calendar__right">
-                        {meetings && <CalendarList meetings={meetings} />}
+                        {/* {meetings && <CalendarList meetings={meetings} />} */}
+                        {hasAPIError ?
+                            <Message>
+                                Error!
+                            </Message>
+                            :
+                            isLoading ?
+                                <Message>
+                                    Loading...
+                                </Message>
+                                :
+                                !meetings ?
+                                    <Message>
+                                        No data!
+                                    </Message>
+                                    :
+                                    meetings.length === 0 ?
+                                        <Message>
+                                            Meetings are empty
+                                        </Message>
+                                        :
+                                        <CalendarList meetings={meetings} />}
                     </section>
                 </section>
 

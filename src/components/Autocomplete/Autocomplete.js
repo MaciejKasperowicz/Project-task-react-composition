@@ -1,18 +1,17 @@
 import React from "react";
-import SearchedMeetings from "./SearchedMeetings";
+import SearchedMeetings from "../SearchedMeetings";
 
-import './Autocomplete.css'
+import classes from './styles.module.css'
 
 export const Autocomplete = (props) => {
-    // console.log(props);
     const { searchValue, handleSearchInputChange, searchedMeetings, setSearchInput } = props;
     return (
-        <div className="autocomplete">
-            <label className="autocomplete__label">
+        <div className={classes.autocomplete}>
+            <label className={classes.autocomplete__label}>
                 Wyszukaj spotkanie:
             </label>
             <input type="text" name="searchValue"
-                className="autocomplete__input"
+                className={classes.autocomplete__input}
                 value={searchValue}
                 onChange={handleSearchInputChange}
 

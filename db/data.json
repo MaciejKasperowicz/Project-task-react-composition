@@ -66,7 +66,7 @@
     },
     {
       "firstName": "Maciej",
-      "lastName": "Kasperowicz",
+      "lastName": "Kasp",
       "email": "makasp@wp.pl",
       "date": "2022-09-07",
       "time": "22:15",
@@ -74,11 +74,27 @@
     },
     {
       "firstName": "Patrycja",
-      "lastName": "Buzun",
-      "email": "patrycjabuzun@gmail.com",
+      "lastName": "Bu",
+      "email": "patrycn@gmail.com",
       "date": "2022-09-08",
       "time": "21:38",
       "id": 10
+    },
+    {
+      "firstName": "Patrycja",
+      "lastName": "Bzun",
+      "email": "patun@gmail.com",
+      "date": "2022-09-14",
+      "time": "22:38",
+      "id": 11
+    },
+    {
+      "firstName": "Maciej",
+      "lastName": "Karowicz",
+      "email": "masp@wp.pl",
+      "date": "2022-09-09",
+      "time": "16:54",
+      "id": 12
     }
   ]
 }

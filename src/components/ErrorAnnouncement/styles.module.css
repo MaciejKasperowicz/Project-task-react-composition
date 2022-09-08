@@ -1,0 +1,12 @@
+.errorAnnouncement{
+    border-radius: 10px;
+    margin: 2% 0;
+    text-align: center;
+    list-style: none;
+    background-color: red;
+    font-size: 12px;
+}
+
+.errorAnnouncement__item{
+    padding: 3px;
+}
