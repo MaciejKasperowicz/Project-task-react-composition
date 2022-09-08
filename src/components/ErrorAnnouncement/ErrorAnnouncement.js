@@ -1,6 +1,5 @@
 import React from "react";
 
-// import './ErrorAnnouncement.css';
 import classes from './styles.module.css'
 
 export const ErrorAnnouncement = (props) => {

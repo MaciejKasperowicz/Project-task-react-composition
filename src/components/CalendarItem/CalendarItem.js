@@ -1,6 +1,5 @@
 import React from "react";
 
-// import './CalendarItem.css'
 import classes from './styles.module.css'
 export const CalendarItem = (props) => {
 

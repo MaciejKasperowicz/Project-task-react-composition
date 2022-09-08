@@ -136,7 +136,6 @@ export class Calendar extends React.Component {
         const { target } = e;
         const { name, value } = target;
 
-        // console.log({ name, value });
 
         this.setState(prevState => (
             { newMeeting: { ...prevState.newMeeting, [name]: value } }
@@ -144,14 +143,12 @@ export class Calendar extends React.Component {
     }
 
     handleSearchInputChange = async (e) => {
-        // console.log(e.target.value);
         const searchInputValue = e.target.value;
 
         this.setState(prevState => (
             { searchInput: searchInputValue }
         ))
 
-        // this.getSearchData(searchInputValue)
         try {
             const searchedData = await getSearchData(searchInputValue);
             this.setState(() => (
@@ -193,7 +190,6 @@ export class Calendar extends React.Component {
     addNewMeeting = async (e) => {
         e.preventDefault();
         const { newMeeting } = this.state;
-        // console.log(newMeeting);
 
 
         await this.validateNewMeeting(newMeeting);
@@ -203,7 +199,6 @@ export class Calendar extends React.Component {
 
 
         if (isValidNewMeeting) {
-            // const response = await this.addData(newMeeting);
             try {
                 const response = await addData(newMeeting)
                 newMeeting.id = response.id
@@ -241,7 +236,6 @@ export class Calendar extends React.Component {
     }
 
     async componentDidMount() {
-        // this.loadData()
         try {
             const meetings = await loadData();
             this.setState(() => {
@@ -284,7 +278,6 @@ export class Calendar extends React.Component {
                         />}
                     </section>
                     <section className={classes.calendar__right}>
-                        {/* {meetings && <CalendarList meetings={meetings} />} */}
                         {hasAPIError ?
                             <Message>
                                 Error!
